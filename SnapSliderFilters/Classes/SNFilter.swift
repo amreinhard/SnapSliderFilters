@@ -61,45 +61,39 @@ open class SNFilter: UIImageView {
         self.layer.mask = maskLayer;
     }
     
-    func applyFilter(filterNamed name:String) -> SNFilter {
-        
-        let filter:SNFilter = self.copy() as! SNFilter
-        filter.name = name
-        
-        let image = filter.image!
-        
+    func applyFilter(filterNamed name: String) {
+        self.name = name
         if (SNFilter.filterNameList.contains(name) == false) {
-            print("Filter not existing")
-            return filter
-        }
-        else if name == "No Filter" {
-            return filter
-        }
-        else
-        {
+            // Filter not existing
+        } else if name == "No Filter" {
+            // Do nothing
+        } else if let image = self.image {
             // Create and apply filter
-            // 1 - create source image
-            let sourceImage = CIImage(image: image)
-            
-            // 2 - create filter using name
-            let myFilter = CIFilter(name: name)
-            myFilter?.setDefaults()
-            
-            // 3 - set source image
-            myFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
-            
-            // 4 - create core image context
-            let context = CIContext(options: nil)
-            
-            // 5 - output filtered image as cgImage with dimension.
-            let outputCGImage = context.createCGImage(myFilter!.outputImage!, from: myFilter!.outputImage!.extent)
-            
-            // 6 - convert filtered CGImage to UIImage
-            let filteredImage = UIImage(cgImage: outputCGImage!, scale: image.scale, orientation: image.imageOrientation)
-            
-            // 7 - set filtered image to array
-            filter.image = filteredImage
-            return filter
+            DispatchQueue.global().async {
+                // 1 - create source image
+                let sourceImage = CIImage(image: image)
+                
+                // 2 - create filter using name
+                let myFilter = CIFilter(name: name)
+                myFilter?.setDefaults()
+                
+                // 3 - set source image
+                myFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
+                
+                // 4 - create core image context
+                let context = CIContext(options: nil)
+                
+                // 5 - output filtered image as cgImage with dimension.
+                let outputCGImage = context.createCGImage(myFilter!.outputImage!, from: myFilter!.outputImage!.extent)
+                
+                // 6 - convert filtered CGImage to UIImage
+                let filteredImage = UIImage(cgImage: outputCGImage!, scale: image.scale, orientation: image.imageOrientation)
+                
+                // 7 - set filtered image to array
+                DispatchQueue.main.async {
+                    self.image = filteredImage
+                }
+            }
         }
     }
     
@@ -108,22 +102,9 @@ open class SNFilter: UIImageView {
     }
     
     open static func generateFilters(_ originalImage: SNFilter, filters:[String]) -> [SNFilter] {
-        
-        var finalFilters = [SNFilter]()
-        
-        let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high)
-        let syncQueue = DispatchQueue(label: "com.snapsliderfilters.app", attributes: .concurrent)
-        
-        // Each filter can be generated on a different thread
-        DispatchQueue.concurrentPerform(iterations: filters.count) { iteration in
-            let filterComputed = originalImage.applyFilter(filterNamed: filters[iteration])
-            syncQueue.sync {
-                finalFilters.append(filterComputed)
-                return
-            }
-        }
-        
-        return finalFilters
+        let snFilters = filters.map { _ in originalImage.copy() as! SNFilter }
+        zip(snFilters, filters).forEach { $0.applyFilter(filterNamed: $1) }
+        return snFilters
     }
 }
 
