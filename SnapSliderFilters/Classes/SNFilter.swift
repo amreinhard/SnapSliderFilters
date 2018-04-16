@@ -66,6 +66,8 @@ open class SNFilter: UIImageView {
         let filter:SNFilter = self.copy() as! SNFilter
         filter.name = name
         
+        let image = filter.image!
+        
         if (SNFilter.filterNameList.contains(name) == false) {
             print("Filter not existing")
             return filter
@@ -77,7 +79,7 @@ open class SNFilter: UIImageView {
         {
             // Create and apply filter
             // 1 - create source image
-            let sourceImage = CIImage(image: filter.image!)
+            let sourceImage = CIImage(image: image)
             
             // 2 - create filter using name
             let myFilter = CIFilter(name: name)
@@ -93,7 +95,7 @@ open class SNFilter: UIImageView {
             let outputCGImage = context.createCGImage(myFilter!.outputImage!, from: myFilter!.outputImage!.extent)
             
             // 6 - convert filtered CGImage to UIImage
-            let filteredImage = UIImage(cgImage: outputCGImage!)
+            let filteredImage = UIImage(cgImage: outputCGImage!, scale: image.scale, orientation: image.imageOrientation)
             
             // 7 - set filtered image to array
             filter.image = filteredImage
