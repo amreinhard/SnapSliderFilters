@@ -49,9 +49,13 @@ open class SNSlider: UIView {
         self.presentData()
     }
     
-    open func slideShown() -> SNFilter {
+    open func slideShown() -> SNFilter? {
         let index = slideAxis.index(with: slider)
-        return data[Int(index)]
+        if 0 ..< data.count ~= index {
+            return data[index]
+        } else {
+            return nil
+        }
     }
     
     fileprivate func cleanData() {
