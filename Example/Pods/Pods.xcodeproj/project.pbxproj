@@ -22,6 +22,7 @@
 		C3B38F0CD89DF84F1392653C40C08DBD /* SNUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF618D3DD0E78C121413D6A8AFAA232B /* SNUtils.swift */; };
 		C7DCE3542F15BF21EC9BA245E5B918CE /* Pods-SnapSliderFilters_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D73A18948A2DB6408866053AE21FD5E6 /* Pods-SnapSliderFilters_Tests-dummy.m */; };
 		C8E65C165B8158CB89A4FEE4B5184C60 /* SNSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E11E37E752062D581B439C0607DDAB8 /* SNSticker.swift */; };
+		CC94CBE120887E560070A40B /* SNSliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC94CBDE20887E560070A40B /* SNSliderDelegate.swift */; };
 		E18CE723F7B6CD734F65AA4D54344A6D /* SnapSliderFilters-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 700AA7703D155D7F375D934D1AACA3BB /* SnapSliderFilters-dummy.m */; };
 		FBF53C17F77D6FBE435A9369A008E53F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,7 @@
 		BE4072B054A30B30590198B8989897AB /* Pods-SnapSliderFilters_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SnapSliderFilters_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		C08965B8D111F2DC8C34B13965A98EE7 /* SNSliderDataSource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SNSliderDataSource.swift; sourceTree = "<group>"; };
 		C628506923FD16E8319FBA3A3E23F852 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CC94CBDE20887E560070A40B /* SNSliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSliderDelegate.swift; sourceTree = "<group>"; };
 		D73A18948A2DB6408866053AE21FD5E6 /* Pods-SnapSliderFilters_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SnapSliderFilters_Tests-dummy.m"; sourceTree = "<group>"; };
 		DBC95305A4F8A5D0B9274A46B9C5D43E /* Pods-SnapSliderFilters_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SnapSliderFilters_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		E9670F85C5DB6C6E7A14BA45BD5EBFFF /* Pods-SnapSliderFilters_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SnapSliderFilters_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				5C01067FCBF6D750F29C877DC5D1631C /* SNFilter.swift */,
 				52AB3D18585E6ED3465F0E416CC048E9 /* SNSlider.swift */,
 				C08965B8D111F2DC8C34B13965A98EE7 /* SNSliderDataSource.swift */,
+				CC94CBDE20887E560070A40B /* SNSliderDelegate.swift */,
 				8E11E37E752062D581B439C0607DDAB8 /* SNSticker.swift */,
 				37B12E1D1F65F6EB6239F12E91919137 /* SNTextField.swift */,
 				AF618D3DD0E78C121413D6A8AFAA232B /* SNUtils.swift */,
@@ -343,7 +346,7 @@
 				LastUpgradeCheck = 0700;
 				TargetAttributes = {
 					1F3FDF782886F3896275161381892DE5 = {
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0920;
 					};
 					5156FAF0B2ACFD7E48AB85EF47AA8ADD = {
 						LastSwiftMigration = 0920;
@@ -377,6 +380,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC94CBE120887E560070A40B /* SNSliderDelegate.swift in Sources */,
 				E18CE723F7B6CD734F65AA4D54344A6D /* SnapSliderFilters-dummy.m in Sources */,
 				39414DED5C8BB5D7F86B0F9F6DF8EAFC /* SNFilter.swift in Sources */,
 				6800ADB1057EBF323064B3BEC2DAF4FA /* SNSlider.swift in Sources */,
@@ -597,6 +601,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0E4DB8475C8819432A1C815283E4E52F /* Pods-SnapSliderFilters_Tests.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -658,6 +663,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3608A6482718ED15276C590A18AF5517 /* Pods-SnapSliderFilters_Tests.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

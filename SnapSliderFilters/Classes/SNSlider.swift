@@ -18,6 +18,8 @@ open class SNSlider: UIView {
     
     open weak var dataSource:SNSliderDataSource?
     
+    open weak var delegate:SNSliderDelegate?
+    
     public init(frame: CGRect, slideAxis: SlideAxis = .horizontal) {
         
         self.slideAxis = slideAxis
@@ -135,6 +137,10 @@ extension SNSlider: UIScrollViewDelegate {
         }
     }
     
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        delegate?.didSelectFilter(self, at: (slideAxis.index(with: slider, targetContentOffset: targetContentOffset.pointee) + numberOfPages - 1) % numberOfPages)
+    }
+    
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         switch slideAxis {
         case .horizontal:
@@ -175,10 +181,17 @@ extension SNSlider {
             }
         }
         
-        func index(with slider: UIScrollView) -> Int {
-            switch self {
-            case .horizontal: return Int(slider.contentOffset.x / slider.frame.size.width)
-            case .vertical: return Int(slider.contentOffset.y / slider.frame.size.height)
+        func index(with slider: UIScrollView, targetContentOffset: CGPoint? = nil) -> Int {
+            if let targetContentOffset = targetContentOffset {
+                switch self {
+                case .horizontal: return Int(targetContentOffset.x / slider.frame.size.width)
+                case .vertical: return Int(targetContentOffset.y / slider.frame.size.height)
+                }
+            } else {
+                switch self {
+                case .horizontal: return Int(slider.contentOffset.x / slider.frame.size.width)
+                case .vertical: return Int(slider.contentOffset.y / slider.frame.size.height)
+                }
             }
         }
         
