@@ -63,9 +63,7 @@ open class SNFilter: UIImageView {
     
     func applyFilter(filterNamed name: String) {
         self.name = name
-        if (SNFilter.filterNameList.contains(name) == false) {
-            // Filter not existing
-        } else if name == "No Filter" {
+        if name == "No Filter" {
             // Do nothing
         } else if let image = self.image {
             // Create and apply filter
@@ -74,17 +72,17 @@ open class SNFilter: UIImageView {
                 let sourceImage = CIImage(image: image)
                 
                 // 2 - create filter using name
-                let myFilter = CIFilter(name: name)
-                myFilter?.setDefaults()
+                guard let myFilter = CIFilter(name: name) else { return }
+                myFilter.setDefaults()
                 
                 // 3 - set source image
-                myFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
+                myFilter.setValue(sourceImage, forKey: kCIInputImageKey)
                 
                 // 4 - create core image context
                 let context = CIContext(options: nil)
                 
                 // 5 - output filtered image as cgImage with dimension.
-                let outputCGImage = context.createCGImage(myFilter!.outputImage!, from: myFilter!.outputImage!.extent)
+                let outputCGImage = context.createCGImage(myFilter.outputImage!, from: myFilter.outputImage!.extent)
                 
                 // 6 - convert filtered CGImage to UIImage
                 let filteredImage = UIImage(cgImage: outputCGImage!, scale: image.scale, orientation: image.imageOrientation)
